@@ -9,26 +9,51 @@ import java.util.stream.IntStream;
  * Created by jcollins on 22/04/15.
  */
 public class ShipData {
+
+
     String name;
-    String x;
-    String y;
+    String xpos;
+    String ypos;
+    String type;
+    String heading;
     String speed;
-    String a;
-    String b;
-    String c;
-    String d;
-    String e;
-    String f;
-    String g;
+    String flag;
+    String mmsi;
+    String length;
+    String elapsed;
+    String width;
+    String lfore;
+    String wleft;
+    String course;
+    String rotation;
+    String destination;
+
 
     public ShipData(JSONArray array) {
         try {
-            this.speed = (String) array.get(0);
+            this.name = array.get(0).toString();
+            this.xpos = array.get(1).toString();
+            this.ypos = array.get(2).toString();
+            this.name = array.get(3).toString();
+            this.type = array.get(4).toString();
+            this.heading = array.get(5).toString();
+            this.speed = array.get(6).toString();
+            this.flag = array.get(7).toString();
+            this.mmsi = array.get(8).toString();
+            this.length = array.get(9).toString();
+            this.elapsed = array.get(10).toString();
+            this.width = array.get(11).toString();
+            this.lfore = array.get(12).toString();
+            this.wleft= array.get(13).toString();
+            this.course = array.get(14).toString();
+            this.rotation = array.get(15).toString();
+            this.destination = array.get(16).toString();
+
+
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
     }
-
 
     public String getName() {
         return name;
@@ -38,20 +63,36 @@ public class ShipData {
         this.name = name;
     }
 
-    public String getX() {
-        return x;
+    public String getXpos() {
+        return xpos;
     }
 
-    public void setX(String x) {
-        this.x = x;
+    public void setXpos(String xpos) {
+        this.xpos = xpos;
     }
 
-    public String getY() {
-        return y;
+    public String getYpos() {
+        return ypos;
     }
 
-    public void setY(String y) {
-        this.y = y;
+    public void setYpos(String ypos) {
+        this.ypos = ypos;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getHeading() {
+        return heading;
+    }
+
+    public void setHeading(String heading) {
+        this.heading = heading;
     }
 
     public String getSpeed() {
@@ -62,59 +103,105 @@ public class ShipData {
         this.speed = speed;
     }
 
-    public String getA() {
-        return a;
+    public String getFlag() {
+        return flag;
     }
 
-    public void setA(String a) {
-        this.a = a;
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
-    public String getB() {
-        return b;
+    public String getMmsi() {
+        return mmsi;
     }
 
-    public void setB(String b) {
-        this.b = b;
+    public void setMmsi(String mmsi) {
+        this.mmsi = mmsi;
     }
 
-    public String getC() {
-        return c;
+    public String getLength() {
+        return length;
     }
 
-    public void setC(String c) {
-        this.c = c;
+    public void setLength(String length) {
+        this.length = length;
     }
 
-    public String getD() {
-        return d;
+    public String getElapsed() {
+        return elapsed;
     }
 
-    public void setD(String d) {
-        this.d = d;
+    public void setElapsed(String elapsed) {
+        this.elapsed = elapsed;
     }
 
-    public String getE() {
-        return e;
+    public String getWidth() {
+        return width;
     }
 
-    public void setE(String e) {
-        this.e = e;
+    public void setWidth(String width) {
+        this.width = width;
     }
 
-    public String getF() {
-        return f;
+    public String getLfore() {
+        return lfore;
     }
 
-    public void setF(String f) {
-        this.f = f;
+    public void setLfore(String lfore) {
+        this.lfore = lfore;
     }
 
-    public String getG() {
-        return g;
+    public String getWleft() {
+        return wleft;
     }
 
-    public void setG(String g) {
-        this.g = g;
+    public void setWleft(String wleft) {
+        this.wleft = wleft;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(String rotation) {
+        this.rotation = rotation;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    @Override
+    public String toString() {
+        return "ShipData{" +
+                "name='" + name + '\'' +
+                ", xpos='" + xpos + '\'' +
+                ", ypos='" + ypos + '\'' +
+                ", type='" + type + '\'' +
+                ", heading='" + heading + '\'' +
+                ", speed='" + speed + '\'' +
+                ", flag='" + flag + '\'' +
+                ", mmsi='" + mmsi + '\'' +
+                ", length='" + length + '\'' +
+                ", elapsed='" + elapsed + '\'' +
+                ", width='" + width + '\'' +
+                ", lfore='" + lfore + '\'' +
+                ", wleft='" + wleft + '\'' +
+                ", course='" + course + '\'' +
+                ", rotation='" + rotation + '\'' +
+                ", destination='" + destination + '\'' +
+                '}';
     }
 }

@@ -91,20 +91,18 @@ public class CollectData {
         jsonArray.length();
 
 
-        List<Void> shipData = IntStream.range(0, jsonArray.length())
-                .filter(i -> jsonArray.get(i).isInstanceOf(JSONArray.class))
-                .mapToObj(i -> new ShipData((JSONArray)jsonArray.get(i)))
-                .collect(Collectors.toList());
+//        List<Void> shipData = IntStream.range(0, jsonArray.length())
+//                .filter(i -> jsonArray.get(i).isInstanceOf(JSONArray.class))
+//                .mapToObj(i -> new ShipData((JSONArray)jsonArray.get(i)))
+//                .collect(Collectors.toList());
 
-//        for(int i = 0; i <= jsonArray.length(); i++) {
-//            JSONArray ship = (JSONArray)jsonArray.get(i);
-//            for(int j = 0; j < 16; j++) {
-//                System.out.println(ship.get(j));
-//            }
-//        }
+        for(int i = 0; i <= jsonArray.length(); i++) {
 
-        System.out.println(jsonArray.toString());
-
+            if (jsonArray.get(i) instanceof JSONArray && ((JSONArray) jsonArray.get(i)).length() > 10){
+                ShipData ship = new ShipData((JSONArray)jsonArray.get(i));
+                System.out.println(ship);
+            }
+        }
     }
 
 
