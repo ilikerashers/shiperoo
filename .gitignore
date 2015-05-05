@@ -21,7 +21,7 @@ sftp-config.json
 /.tgitconfig
 
 
-### JetBrains template
+### JetBrains templatecd
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
 *.iml

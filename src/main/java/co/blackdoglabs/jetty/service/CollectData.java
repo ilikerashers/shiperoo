@@ -12,9 +12,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collector;
@@ -92,19 +94,38 @@ public class CollectData {
 
 
 //        List<Void> shipData = IntStream.range(0, jsonArray.length())
-//                .filter(i -> jsonArray.get(i).isInstanceOf(JSONArray.class))
-//                .mapToObj(i -> new ShipData((JSONArray)jsonArray.get(i)))
-//                .collect(Collectors.toList());
+//                .filter(i -> propagate(jsonArray.get(i).isInstanceOf(JSONArray.class)))
+////                .mapToObj(i -> new ShipData((JSONArray)jsonArray.get(i)))
+////                .collect(Collectors.toList());
 
         for(int i = 0; i <= jsonArray.length(); i++) {
-
-            if (jsonArray.get(i) instanceof JSONArray && ((JSONArray) jsonArray.get(i)).length() > 10){
-                ShipData ship = new ShipData((JSONArray)jsonArray.get(i));
-                System.out.println(ship);
+            if(jsonArray.get(i).getClass().isInstance(JSONArray.class)) {
+                ShipData shipData = new ShipData((JSONArray) jsonArray.get(i));
             }
+        }
+
+        System.out.println(jsonArray.toString());
+
+    }
+
+
+    // this is a new one, n/a in public libs
+    // Callable just suits as a functional interface in JDK throwing Exception
+    public static <V> V propagate(Callable<V> callable){
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            throw runtime(e);
         }
     }
 
+    public static RuntimeException runtime(Throwable e) {
+        if (e instanceof RuntimeException) {
+            return (RuntimeException)e;
+        }
+
+        return new RuntimeException(e);
+    }
 
     private void setHeaders(URLConnection connection) {
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36");
