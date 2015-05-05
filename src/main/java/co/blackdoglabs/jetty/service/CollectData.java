@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
@@ -79,11 +80,11 @@ public class CollectData {
         final String authServer = server;
 
         // Coordinate range from -90 to +90
-        List<Integer> coordinateRange = IntStream.iterate(-90, n -> n - 20).limit(10).boxed().collect(Collectors.toList());
+        List<Integer> coordinateRange = IntStream.iterate(-90, n -> n + 20).limit(10).boxed().collect(Collectors.toList());
 
         // Create an 81 panel grid
         List<Tuple2> grid = coordinateRange.stream()
-                .flatMap(x -> coordinateRange.stream().map(y -> new Tuple2(new Point(x, y + 20), new Point(x + 20, y)))
+                .flatMap(x -> coordinateRange.stream().map(y -> new Tuple2(new Point(x, y + 20), new Point(x + 20, y+28)))
                         .filter(tuple -> ((Point) tuple._1()).getX() <= 90
                                 && ((Point) tuple._1()).getY() <= 90
                                 && ((Point) tuple._2()).getX() <= 90
@@ -94,6 +95,8 @@ public class CollectData {
         List<ShipData> fullShipData = grid.stream().flatMap(
                 tuple -> getShipData((Point) tuple._1(), (Point) tuple._2(), authServer, authToken).stream())
                 .collect(Collectors.toList());
+
+        fullShipData.stream().forEach(System.out::println);
 
 
     }
@@ -118,33 +121,38 @@ public class CollectData {
 
             String json = IOUtils.toString(gzipInputStream);
 
-            JSONArray jsonArray = new JSONArray(json);
+            if(!json.isEmpty()) {
+                JSONArray jsonArray = new JSONArray(json);
 
-            // Build from array
-            List<ShipData> shipData = IntStream.range(0, jsonArray.length())
-                    .filter(i -> getFromArray(jsonArray, i) instanceof JSONArray)
-                    .mapToObj(i -> new ShipData(getFromArray(jsonArray, i)))
-                    .filter(ship -> ship.getType().equals(8)) // Just get the LPG
-                    .collect(Collectors.toList());
+                // Build from array
+                List<ShipData> shipData = IntStream.range(0, jsonArray.length())
+                        .filter(i -> getFromArray(jsonArray, i) instanceof JSONArray)
+                        .mapToObj(i -> new ShipData(getFromArray(jsonArray, i)))
+                        .filter(ship -> ship.getType().equals("8")) // Just get the LPG
+                        .collect(Collectors.toList());
 
-            return shipData;
+                return shipData;
+            }
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
 
     // Helper to avoid thrown exception in stream
-    private JSONArray getFromArray(JSONArray jsonArray, int i) {
+    private <T> T getFromArray(JSONArray jsonArray, int i) {
         try {
-            return (JSONArray) jsonArray.get(i);
+            if (jsonArray.get(i) instanceof JSONArray) {
+                return (T) jsonArray.get(i);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+
         }
+        return null;
     }
 
 

@@ -3,37 +3,75 @@ package co.blackdoglabs.jetty.domain;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.stream.IntStream;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Created by jcollins on 22/04/15.
  */
 public class ShipData {
 
+    @Id
+    @GeneratedValue
+    private Long id;
 
+    @Column(nullable = false)
     String name;
+
+    @Column(nullable = false)
     String xpos;
+
+    @Column(nullable = false)
     String ypos;
+
+    @Column(nullable = false)
     String type;
+
+    @Column(nullable = false)
     String heading;
+
+    @Column(nullable = false)
     String speed;
+
+    @Column(nullable = false)
     String flag;
+
+    @Column(nullable = false)
     String mmsi;
+
+    @Column(nullable = false)
     String length;
+
+    @Column(nullable = false)
     String elapsed;
+
+    @Column(nullable = false)
     String width;
+
+    @Column(nullable = false)
     String lfore;
+
+    @Column(nullable = false)
     String wleft;
+
+    @Column(nullable = false)
     String course;
+
+    @Column(nullable = false)
     String rotation;
+
+    @Column(nullable = false)
     String destination;
-    String id;
+
+    @Column(nullable = false)
+    String shipId;
 
 
     public ShipData(JSONArray array) {
         try {
 
-            this.id = array.get(0).toString();
+            this.shipId = array.get(0).toString();
             this.xpos = array.get(1).toString();
             this.ypos = array.get(2).toString();
             this.name = array.get(3).toString();
@@ -57,12 +95,12 @@ public class ShipData {
         }
     }
 
-    public String getId() {
-        return id;
+    public String getShipId() {
+        return shipId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setShipId(String shipId) {
+        this.shipId = shipId;
     }
 
     public String getName() {
