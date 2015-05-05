@@ -87,9 +87,13 @@ public class CollectData {
                         .filter(tuple -> ((Point) tuple._1()).getX() <= 90
                                 && ((Point) tuple._1()).getY() <= 90
                                 && ((Point) tuple._2()).getX() <= 90
-                                && ((Point) tuple._2()).getY() <= 90)).collect(Collectors.toList());
+                                && ((Point) tuple._2()).getY() <= 90))
+                .collect(Collectors.toList());
 
-        List<ShipData> r = grid.stream().flatMap(tuple -> getShipData((Point) tuple._1(), (Point) tuple._2(), authServer, authToken)).collect(Collectors.toSet());
+        // Get each request and create list of results
+        List<ShipData> fullShipData = grid.stream().flatMap(
+                tuple -> getShipData((Point) tuple._1(), (Point) tuple._2(), authServer, authToken).stream())
+                .collect(Collectors.toList());
 
 
     }
