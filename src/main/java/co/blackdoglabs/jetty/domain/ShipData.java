@@ -27,11 +27,13 @@ public class ShipData {
     String course;
     String rotation;
     String destination;
+    String id;
 
 
     public ShipData(JSONArray array) {
         try {
-            this.name = array.get(0).toString();
+
+            this.id = array.get(0).toString();
             this.xpos = array.get(1).toString();
             this.ypos = array.get(2).toString();
             this.name = array.get(3).toString();
@@ -53,6 +55,14 @@ public class ShipData {
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
